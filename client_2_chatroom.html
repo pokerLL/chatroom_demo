@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            top: 0;
+            left: 0;
+            position: fixed;
+            background: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11695386033%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1648600623&t=df3f93f935862bb12586454d4274a3c5) no-repeat;
+        }
+
+        #chat-box {
+            top: 5%;
+            left: 20%;
+            width: 60%;
+            height: 70%;
+            position: absolute;
+            border: 5px orange solid;
+            overflow-y: auto;
+        }
+
+        .message-box {
+            height: 8vh;
+            width: 60vw;
+            left: 20%;
+            background-color: #ff0000;
+            position: absolute;
+        }
+
+        .message-header {
+            height: 25%;
+        }
+
+        .message-user {
+            float: left;
+        }
+
+        .message-time {
+            float: right;
+            margin-right: 3vw;
+        }
+
+        .message-body {
+            height: 60%;
+            width: 100%;
+            margin-top: 5px;
+            position: absolute;
+        }
+
+        .message-content {
+            height: 60%;
+            width: 100%;
+        }
+
+        .message-footer {
+            height: 15%;
+        }
+
+        .footer {
+            height: 10%;
+            width: 60%;
+            bottom: 0px;
+            left: 20%;
+            position: absolute;
+        }
+
+        .input-box {
+            width: 80%;
+            margin-left: 5%;
+        }
+
+        .submit-btn {
+            float: right;
+        }
+
+        .status-bar {
+            margin-left: 5%;
+
+        }
+
+        .message {
+            left: 2%;
+            width: 60%;
+            position: relative;
+        }
+
+        .time {
+            left: 5%;
+        }
+
+        ._message {
+            left: 15%;
+        }
+    </style>
+</head>
+<body>
+<div id="chat-box">
+    <!--    <div class="message-box">-->
+    <!--        <div class="message-header">-->
+    <!--            <div class="message-user">-->
+    <!--                pokerf-->
+    <!--            </div>-->
+    <!--            <div class="message-time">-->
+    <!--                2020-02-28 17:46-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="message-body">-->
+    <!--            <div class="message-content">->-->
+    <!--                wish you!wish you!wish you!wish you!wish you!wish you!wish you!-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="message-footer"></div>-->
+    <!--    </div>-->
+    <div class="message">
+        <qqq class="time">(2020-02-02 16:59)</qqq>
+        :
+        <!--        <qq class="_message">wishyou wish you wish you</qq>-->
+    </div>
+    <div class="message">
+        <qqq class="time">(2020-02-02 16:59)</qqq>
+        :
+        <qq class="_message">wishyou wish you wish you</qq>
+    </div>
+    <div class="message">
+        <qqq class="time">(2020-02-02 16:59)</qqq>
+        :
+        <qq class="_message">wishyou wish you wish you</qq>
+    </div>
+</div>
+<div class="footer">
+    <input type="text" class="input-box" placeholder="在此输入想发送的信息" name="message-inputer">
+    <input type="button" value="发送" class="submit-btn">
+    <p class="status-bar">当前共<b id="online-user-num">0</b>人在线</p>
+</div>
+
+<script>
+    var chat_box = document.querySelector("#chat-box"),
+        input_box = document.querySelector(".input-box"),
+        submit_btn = document.querySelector(".submit-btn"),
+        user_num_box = document.querySelector("#online-user-num"),
+        websocket = new WebSocket("ws://127.0.0.1:6789/");
+
+    function boxtobottom() {
+        var hh = chat_box.scrollHeight;
+        chat_box.scrollTo(0, hh);
+
+    }
+
+    submit_btn.onclick = function () {
+        var tt = new Date();
+        var message_content = input_box.value,
+            time_now = tt.getFullYear() + "-" + (tt.getMonth() + 1) + "-" + tt.getDate() + " " + tt.getHours() + ":" + tt.getMinutes() + ":" + tt.getSeconds();
+        input_box.value = "";
+        // console.log(message_content);
+        // console.log(time_now);
+        var mb = document.createElement("div"),
+            tb = document.createElement("qqq"),
+            _mb = document.createElement("qq");
+        mb.setAttribute("class", "message");
+        tb.setAttribute("class", "time");
+        _mb.setAttribute("class", "_message");
+        tb.innerText = "(" + time_now + ") : ";
+        _mb.innerText = message_content;
+        mb.appendChild(tb);
+        mb.appendChild(_mb);
+        chat_box.appendChild(mb);
+        boxtobottom();
+        websocket.send(JSON.stringify({action: 'message', time: time_now, message_content: message_content}))
+    }
+
+    websocket.onmessage = function (event) {
+        var data = JSON.parse(event.data);
+        console.log(data);
+        switch (data.action) {
+            case 'user':
+                var num = parseInt(data.user_num);
+                user_num_box.innerText = num;
+                break;
+            case 'message':
+                var tt = data.time,
+                    mm = data.message_content;
+                var mb = document.createElement("div"),
+                    tb = document.createElement("qqq"),
+                    _mb = document.createElement("qq");
+                mb.setAttribute("class", "message");
+                tb.setAttribute("class", "time");
+                _mb.setAttribute("class", "_message");
+                tb.innerText = "(" + tt + ") : ";
+                _mb.innerText = mm;
+                mb.appendChild(tb);
+                mb.appendChild(_mb);
+                chat_box.appendChild(mb);
+                boxtobottom();
+                break;
+            default:
+                alert("发生未知错误");
+                break;
+        }
+    }
+
+    document.onkeypress = function (event) {
+        if (event.keyCode == 13) {
+            submit_btn.click();
+        }
+    }
+
+</script>
+
+</body>
+</html>
