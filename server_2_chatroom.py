@@ -10,10 +10,12 @@ logging.basicConfig()
 交换数据格式
 action  xxx(message,user)
 time    xxx
+username    xxx
 [meaasge xxx]
 '''
 
 USERS = set()
+USER_NAME = dict()
 
 
 async def notify_users():
@@ -38,21 +40,19 @@ async def unregister(websocket):
     await notify_users()
 
 
-async def push_message(websocket, message):
+async def push_message(message):
     if USERS:
         await asyncio.wait([user.send(message) for user in USERS])
 
 
-async def chatroom_poker(websocket, path):
+async def chatroom_poker(websocket):
     await register(websocket)
     try:
         async for message in websocket:
-            # print(message)
-            # print(type(message))
             data = json.loads(message)
             print(data)
             if data['action'] == 'message':
-                await push_message(websocket, message)
+                await push_message(message)
             else:
                 print("???????")
     finally:
