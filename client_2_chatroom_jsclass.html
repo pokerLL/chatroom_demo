@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>在线聊天室</title>
+		<link rel="stylesheet" href="./static/css/client_2.css">
+		<script src="static/js/client_2.js"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="vcenter room bor" id="123">
+		</div>
+		<script>
+			$room = $(".room")[0];
+			new chatroom($room["id"]);
+		</script>
+	</body>
+
+</html>

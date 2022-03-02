@@ -1,0 +1,88 @@
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	top: 0;
+	left: 0;
+	position: fixed;
+	background: url(https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11695386033%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1648600623&t=df3f93f935862bb12586454d4274a3c5) no-repeat;
+}
+
+	
+.drawpane {
+	width: 100%;
+	height: 100%;
+}
+
+.vcenter {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.room {
+	width: 80%;
+	height: 100%;
+}
+
+.room-header {
+	width: 100%;
+	height: 7%;
+	position: absolute;
+}
+
+.room-body {
+	top: 10%;
+	width: 100%;
+	height: 70%;
+	position: absolute;
+	border: 5px orange solid;
+	overflow-y: auto;
+}
+
+.room-footer {
+	width: 100%;
+	height: 10%;
+	bottom: 0px;
+	position: absolute;
+}
+
+.room-header-roomname{
+	text-align: center;
+}
+
+.roomfooter-message-input-box {
+	width: 80%;
+
+}
+
+.status-bar {
+	margin-top: 3px;
+
+}
+
+.message {
+	left: 2%;
+	width: 60%;
+	position: relative;
+}
+
+.time {
+	left: 5%;
+}
+
+._message {
+	left: 15%;
+}
+
+
+.float-right {
+	float: right;
+	right: 3%;
+}
+
+
+.bor {
+	border: #FF0000 2px solid;
+}
